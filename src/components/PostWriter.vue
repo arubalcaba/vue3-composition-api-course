@@ -5,6 +5,7 @@ import { marked } from 'marked'
 import hljs from 'highlight.js'
 import { debounce } from 'lodash';
 import { usePostsStore } from '../stores/posts'
+import { useRouter } from 'vue-router'
 
 const props = defineProps<{
     post: TimelinePost
@@ -15,6 +16,7 @@ const contentEditable = ref<HTMLDivElement>()
 const html = ref('')
 const content = ref(props.post.markdown)
 const postsStore = usePostsStore()
+const router = useRouter()
 
 // watchEffect(() => {
 //     marked.parse(content.value, (err, result) => {
@@ -56,7 +58,7 @@ const handleInput = () => {
     content.value = contentEditable.value?.innerText || ''
 }
 
-const handleClick = () => {
+const handleClick = async () => {
     console.log('clicked')
 
     const newPost: TimelinePost = {
@@ -65,7 +67,8 @@ const handleClick = () => {
         markdown: content.value,
         html: html.value
     }
-    postsStore.createPost(newPost)
+    await postsStore.createPost(newPost)
+    router.push('/')
 
 
 }

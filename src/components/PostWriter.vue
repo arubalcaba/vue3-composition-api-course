@@ -4,6 +4,7 @@ import { ref, defineProps, watch, onMounted } from 'vue'
 import { marked } from 'marked'
 import hljs from 'highlight.js'
 import { debounce } from 'lodash';
+import { usePostsStore } from '../stores/posts'
 
 const props = defineProps<{
     post: TimelinePost
@@ -13,6 +14,7 @@ const title = ref(props.post.title)
 const contentEditable = ref<HTMLDivElement>()
 const html = ref('')
 const content = ref(props.post.markdown)
+const postsStore = usePostsStore()
 
 // watchEffect(() => {
 //     marked.parse(content.value, (err, result) => {
@@ -54,6 +56,20 @@ const handleInput = () => {
     content.value = contentEditable.value?.innerText || ''
 }
 
+const handleClick = () => {
+    console.log('clicked')
+
+    const newPost: TimelinePost = {
+        ...props.post,
+        title: title.value,
+        markdown: content.value,
+        html: html.value
+    }
+    postsStore.createPost(newPost)
+
+
+}
+
 </script>
 <template>
     <div class="columns">
@@ -72,6 +88,14 @@ const handleInput = () => {
         </div>
         <div class="column">
             <div v-html="html" />
+        </div>
+    </div>
+
+    <div class="columns">
+        <div class="column">
+            <button class="button is-primary is-pulled-right" @click="handleClick">
+                Save Post
+            </button>
         </div>
     </div>
 </template>

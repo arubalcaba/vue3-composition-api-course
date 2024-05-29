@@ -30,6 +30,10 @@ export const usePostsStore = defineStore("posts", {
                     this.ids.push(post.id)
                 }
             })
+        },
+        createPost (post: TimelinePost) {
+            console.log('saving post...')
+            console.log(post)
         }
     },
 

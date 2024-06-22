@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router';
+import { useModal } from '../composables/modal';
+
+const modal = useModal();
 
 
 </script>
@@ -7,8 +9,13 @@ import { RouterLink } from 'vue-router';
     <div class="navbar">
         <div class="navbar-end">
             <div class="buttons">
+                <button class="button" @click="modal.showModal()">Sign Up</button>
                 <RouterLink to="/posts/new" class="button">New Post</RouterLink>
             </div>
         </div>
     </div>
+
+    <teleport to='#modal'>
+        Content to be rendered
+    </teleport>
 </template>

@@ -37,5 +37,3 @@ export function validate(value: string, rules: Rule[]): Status {
     }
 }
 
-console.log(validate('', [required])) // { valid: false, message: 'This field is required' }
-console.log(validate('hello', [required])) // { valid: true }
